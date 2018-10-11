@@ -1,8 +1,5 @@
 import Game.GsonReceiver;
-import Lists.Dot;
-import Lists.Matrix1;
-import Lists.Matrix2;
-import Lists.Persona;
+import Lists.*;
 import com.google.gson.Gson;
 
 
@@ -11,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Vector;
+
 
 public class ServerWorker extends Thread{
 
@@ -20,6 +17,7 @@ public class ServerWorker extends Thread{
     private Matrix2 matrix = new Matrix2();
     private int Turn = 0;
     private int Player = 1;
+    private Lot lot = new Lot();
 
 
 
