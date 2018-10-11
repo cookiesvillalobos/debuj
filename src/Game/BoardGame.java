@@ -41,7 +41,7 @@ public class BoardGame extends JPanel implements MouseListener {
         setBackground(Color.BLACK);
         this.addMouseListener(this);
         this.matrix = matrix;
-        DotList = matrix.viewList();
+
         LineLRList = matrix.getLineLRList();
         LineUDList = matrix.getLineUDList();
         FigureList = matrix.getFigureList();
@@ -64,6 +64,7 @@ public class BoardGame extends JPanel implements MouseListener {
             matrix.board3(g2);
             indicator++;
             System.out.println("Es el turno del jugador 1");
+            DotList = matrix.viewList();
 
 
         }
@@ -111,7 +112,8 @@ public class BoardGame extends JPanel implements MouseListener {
         if (e.getButton() == MouseEvent.BUTTON1){
 
             for (Dot dot : DotList){
-                if (new Rectangle(dot.getX(), dot.getY(), 10,10).contains(e.getPoint()));{
+
+                if (new Rectangle(dot.getX(), dot.getY(), 10,10).contains(e.getPoint())){
                     if (p1 == null){
                         p1 = new Point(dot.getX(), dot.getY());
                         p1mX = dot.getmX();
@@ -119,14 +121,16 @@ public class BoardGame extends JPanel implements MouseListener {
                         a = dot;
                         break;
                     }
-                    else {
+                    else if (p1.x != dot.getX() || p1.y != dot.getY()) {
                         p2 = new Point(dot.getX(), dot.getY());
                         p2mX = dot.getmX();
                         p2mY = dot.getmY();
                         b = dot;
+                        gsonReceiver = new GsonReceiver(p1,p2,Turn,Player,indicator,p1mX,p1mY,p2mX,p2mY,matrix);
                         Turn++;
+
                     }
-                    gsonReceiver = new GsonReceiver(p1,p2,Turn,Player,indicator,p1mX,p1mY,p2mX,p2mY);
+
                     repaint();
                     p1 = null;
                     p2 = null;

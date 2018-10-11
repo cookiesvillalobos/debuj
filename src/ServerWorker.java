@@ -49,9 +49,7 @@ public class ServerWorker extends Thread{
                 Gson gson = new Gson();
                 GsonSendServer gsonSendServer = new GsonSendServer(matrix, Turn, Player);
                 String jsonOutput = gson.toJson(gsonSendServer, GsonSendServer.class);
-                //String jsonOutput = gson.toJson(persona, Persona.class);
 
-                System.out.println(jsonOutput);
                 outWriter.println(jsonOutput);
                 outWriter.flush();
             }catch (IOException e){
@@ -65,7 +63,11 @@ public class ServerWorker extends Thread{
             if (!jsonInput.equals(jsonInputLast) && test.equals("{")){
                 Gson gson = new Gson();
                 GsonReceiver gsonReceiver;
+                System.out.println(jsonInput);
                 gsonReceiver = gson.fromJson(jsonInput, GsonReceiver.class);
+                if (lot.ju(gsonReceiver.getP1mX(), gsonReceiver.getP1mY(), gsonReceiver.getP2mX(), gsonReceiver.getP2mY())){
+                    System.out.println("Son adyacentes");
+                }
             }
         }
     }
