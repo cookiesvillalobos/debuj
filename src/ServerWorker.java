@@ -1,3 +1,4 @@
+import Game.GsonReceiver;
 import Lists.Dot;
 import Lists.Matrix1;
 import Lists.Matrix2;
@@ -5,7 +6,9 @@ import Lists.Persona;
 import com.google.gson.Gson;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Vector;
@@ -36,7 +39,13 @@ public class ServerWorker extends Thread{
     }
 
     public void handleClientSocket() throws IOException{
+        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        String jsonInput = "";
+        String jsonInputLast = "";
+
         while (true){
+            // Enviar matriz
             try {
                 PrintWriter outWriter = new PrintWriter(clientSocket.getOutputStream(), true);
                 Gson gson = new Gson();
@@ -49,6 +58,16 @@ public class ServerWorker extends Thread{
                 outWriter.flush();
             }catch (IOException e){
                 e.printStackTrace();
+            }
+            //Recibir la línea
+            jsonInputLast = jsonInput;
+            jsonInput = in.readLine();
+            String test = jsonInput.substring(0,1);
+
+            if (!jsonInput.equals(jsonInputLast) && test.equals("{")){
+                Gson gson = new Gson();
+                GsonReceiver gsonReceiver;
+                gsonReceiver = gson.fromJson(jsonInput, GsonReceiver.class);
             }
         }
     }
